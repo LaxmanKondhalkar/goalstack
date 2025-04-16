@@ -2,7 +2,6 @@
 
 GoalStack is a submission for **Frontend UI Hackathon 2025 (#2)** under the **Dashboards and Data Visualization** category. It’s a modern, responsive savings goal tracker that allows users to visually manage and track progress toward their financial objectives with engaging UI elements and smooth interactions.
 
-![GoalStack App Screenshot](./public/screenshot.png)
 
 ## 📋 Overview
 

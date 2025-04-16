@@ -52,9 +52,9 @@ export default function GoalCard({
       transition={{ duration: 0.3 }}
       whileHover={{ y: -4, boxShadow: '0 12px 24px -10px rgba(0, 0, 0, 0.15)' }}
     >
-      <div className="flex items-center mb-4">
+      <div className="flex items-center mb-3 md:mb-4">
         <div 
-          className="w-10 h-10 rounded-lg flex items-center justify-center text-lg sm:text-xl mr-3 shadow-sm"
+          className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center text-base sm:text-lg md:text-xl mr-2 md:mr-3 shadow-sm"
           style={{ 
             background: `var(--${colorTheme}-100)`,
             color: `var(--${colorTheme}-700)`
@@ -63,7 +63,7 @@ export default function GoalCard({
           {icon}
         </div>
         <div>
-          <h3 className="font-semibold text-[var(--text)]">{name}</h3>
+          <h3 className="font-semibold text-sm sm:text-base text-[var(--text)]">{name}</h3>
           <p className="text-xs text-[var(--text)]/70">
             ${formattedCurrentAmount} / ${formattedTargetAmount}
           </p>
@@ -80,7 +80,7 @@ export default function GoalCard({
             {progressPercentage}%
           </span>
         </div>
-        <div className="w-full h-3 bg-[var(--background-200)] rounded-full overflow-hidden">
+        <div className="w-full h-2 sm:h-3 bg-[var(--background-200)] rounded-full overflow-hidden">
           <motion.div 
             className="h-full relative"
             style={{ 
@@ -102,9 +102,9 @@ export default function GoalCard({
         </div>
       </div>
       
-      <div className="flex justify-between mt-4">
+      <div className="flex flex-col sm:flex-row sm:justify-between gap-2 sm:gap-0 mt-3 sm:mt-4">
         <motion.button 
-          className="text-xs py-1.5 px-3.5 rounded-full flex items-center gap-1 font-medium shadow-sm"
+          className="text-xs py-1.5 px-3 sm:px-3.5 rounded-full flex items-center justify-center sm:justify-start gap-1 font-medium shadow-sm"
           style={{ 
             background: `var(--${colorTheme}-100)`,
             color: `var(--${colorTheme}-700)`
@@ -126,7 +126,7 @@ export default function GoalCard({
           )}
         </motion.button>
         <span 
-          className="text-xs flex items-center px-2 py-1 rounded-full"
+          className="text-xs flex items-center justify-center px-2 py-1 rounded-full"
           style={{ 
             background: `var(--${colorTheme}-100)`,
             color: `var(--${colorTheme}-700)`

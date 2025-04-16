@@ -10,16 +10,16 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ArrowRight, ChevronDown, LineChart, PieChart, Target, TrendingUp, 
-  Users, Bell, Settings, Menu, X, Home, User, CreditCard, BarChart3, 
-  PlusCircle, Search, Filter, Calendar, ChevronLeft, ChevronRight,
-  DollarSign, Download, Share2
+  PieChart, Target, 
+  Users, Bell, Settings, Menu, X, Home, CreditCard, BarChart3, 
+  Search, ChevronLeft, ChevronRight,
+  DollarSign, Download, Share2, Zap
 } from 'lucide-react';
 
 export default function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
-  const [notifications, setNotifications] = useState([
+  const [notifications] = useState([
     { id: 1, title: "Monthly report available", time: "Just now" },
     { id: 2, title: "Goal completed: Emergency Fund", time: "2 hours ago" },
     { id: 3, title: "New badge earned: Consistency King", time: "Yesterday" }
@@ -34,13 +34,13 @@ export default function Dashboard() {
   return (
     <>
       {/* Dashboard Header */}
-      <header className="py-3 px-6 sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b border-text/5">
+      <header className="py-3 px-6 sticky top-0 z-50 backdrop-blur-md bg-[var(--background-50)]/90 border-b border-[var(--primary-200)]/20">
         <div className="flex justify-between items-center">
           {/* Left side */}
           <div className="flex items-center gap-3">
             <motion.button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="p-2 rounded-md hover:bg-text/5"
+              className="p-2 rounded-md hover:bg-[var(--primary-100)]"
               whileTap={{ scale: 0.9 }}
               aria-label="Toggle sidebar"
             >
@@ -48,7 +48,7 @@ export default function Dashboard() {
             </motion.button>
             
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center text-background font-bold">G</div>
+              <div className="w-8 h-8 bg-gradient-to-br from-[var(--primary-400)] to-[var(--primary-600)] rounded-md flex items-center justify-center text-[var(--background-50)] font-bold shadow-sm">G</div>
               <motion.span 
                 className="font-bold text-xl"
                 initial={{ opacity: 0, x: -10 }}
@@ -65,7 +65,7 @@ export default function Dashboard() {
             <input 
               type="text" 
               placeholder="Search..." 
-              className="w-full py-2 px-4 pr-10 rounded-lg bg-text/5 focus:outline-none focus:ring-2 focus:ring-primary/50"
+              className="w-full py-2 px-4 pr-10 rounded-lg bg-[var(--background-100)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-300)] transition-all"
             />
             <Search size={18} className="absolute right-3 opacity-50" />
           </div>
@@ -75,31 +75,31 @@ export default function Dashboard() {
             <div className="relative">
               <motion.button
                 onClick={() => setShowNotifications(!showNotifications)}
-                className="p-2 rounded-full hover:bg-text/5 relative"
+                className="p-2 rounded-full hover:bg-[var(--primary-100)] relative"
                 whileTap={{ scale: 0.9 }}
               >
                 <Bell size={20} />
-                <span className="absolute top-0 right-0 w-2 h-2 bg-accent rounded-full"></span>
+                <span className="absolute top-0 right-0 w-2 h-2 bg-[var(--accent)] rounded-full"></span>
               </motion.button>
               
               <AnimatePresence>
                 {showNotifications && (
                   <motion.div 
-                    className="absolute right-0 mt-2 w-72 bg-background border border-text/10 rounded-lg shadow-lg overflow-hidden z-50"
+                    className="absolute right-0 mt-2 w-72 bg-[var(--background-50)] border border-[var(--primary-200)]/30 rounded-lg shadow-lg overflow-hidden z-50"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="p-3 border-b border-text/10 flex justify-between items-center">
+                    <div className="p-3 border-b border-[var(--primary-200)]/20 flex justify-between items-center bg-gradient-to-r from-[var(--background-50)] to-[var(--background-100)]">
                       <h3 className="font-medium">Notifications</h3>
-                      <button className="text-xs text-primary">Mark all as read</button>
+                      <button className="text-xs text-[var(--primary)]">Mark all as read</button>
                     </div>
                     <div className="max-h-80 overflow-y-auto">
                       {notifications.map((notification) => (
                         <motion.div 
                           key={notification.id} 
-                          className="p-3 border-b border-text/5 hover:bg-text/5 cursor-pointer"
+                          className="p-3 border-b border-[var(--primary-200)]/10 hover:bg-[var(--background-100)] cursor-pointer"
                           whileHover={{ x: 3 }}
                         >
                           <p className="font-medium text-sm">{notification.title}</p>
@@ -107,8 +107,8 @@ export default function Dashboard() {
                         </motion.div>
                       ))}
                     </div>
-                    <div className="p-2 text-center">
-                      <button className="text-xs text-primary hover:underline">View all notifications</button>
+                    <div className="p-2 text-center bg-[var(--background-50)]">
+                      <button className="text-xs text-[var(--primary)] hover:underline">View all notifications</button>
                     </div>
                   </motion.div>
                 )}
@@ -118,7 +118,7 @@ export default function Dashboard() {
             <ThemeToggle />
             
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full overflow-hidden">
+              <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-[var(--primary-300)]">
                 <Image 
                   src="/avatars/profile.png" 
                   alt="User profile" 
@@ -138,7 +138,7 @@ export default function Dashboard() {
         <AnimatePresence mode="wait">
           {isSidebarOpen && (
             <motion.aside 
-              className="w-64 border-r border-text/5 h-[calc(100vh-4rem)] sticky top-16 overflow-y-auto"
+              className="w-64 border-r border-[var(--primary-200)]/20 h-[calc(100vh-4rem)] sticky top-16 overflow-y-auto bg-[var(--background-50)]"
               initial={{ x: -260 }}
               animate={{ x: 0 }}
               exit={{ x: -260 }}
@@ -149,40 +149,40 @@ export default function Dashboard() {
                   <p className="text-xs uppercase opacity-50 font-medium mb-2 px-4">Main</p>
                   <ul className="space-y-1">
                     <motion.li whileHover={{ x: 3 }}>
-                      <button 
-                        onClick={() => setActiveTab('overview')}
-                        className={`flex items-center gap-3 w-full p-2.5 rounded-lg ${activeTab === 'overview' ? 'bg-primary/10 text-primary' : 'hover:bg-text/5'}`}
+                      <Link 
+                        href="/"
+                        className={`flex items-center gap-3 w-full p-2.5 rounded-lg ${activeTab === 'overview' ? 'bg-[var(--primary-100)] text-[var(--primary-600)]' : 'hover:bg-[var(--background-100)]'}`}
                       >
                         <Home size={18} />
                         <span>Dashboard</span>
-                      </button>
+                      </Link>
                     </motion.li>
                     <motion.li whileHover={{ x: 3 }}>
-                      <button 
-                        onClick={() => setActiveTab('goals')}
-                        className={`flex items-center gap-3 w-full p-2.5 rounded-lg ${activeTab === 'goals' ? 'bg-primary/10 text-primary' : 'hover:bg-text/5'}`}
+                      <Link 
+                        href="/goals"
+                        className={`flex items-center gap-3 w-full p-2.5 rounded-lg ${activeTab === 'goals' ? 'bg-[var(--primary-100)] text-[var(--primary-600)]' : 'hover:bg-[var(--background-100)]'}`}
                       >
                         <Target size={18} />
                         <span>Goals</span>
-                      </button>
+                      </Link>
                     </motion.li>
                     <motion.li whileHover={{ x: 3 }}>
-                      <button 
-                        onClick={() => setActiveTab('analytics')}
-                        className={`flex items-center gap-3 w-full p-2.5 rounded-lg ${activeTab === 'analytics' ? 'bg-primary/10 text-primary' : 'hover:bg-text/5'}`}
+                      <Link 
+                        href="/analytics"
+                        className={`flex items-center gap-3 w-full p-2.5 rounded-lg ${activeTab === 'analytics' ? 'bg-[var(--primary-100)] text-[var(--primary-600)]' : 'hover:bg-[var(--background-100)]'}`}
                       >
                         <BarChart3 size={18} />
                         <span>Analytics</span>
-                      </button>
+                      </Link>
                     </motion.li>
                     <motion.li whileHover={{ x: 3 }}>
-                      <button 
-                        onClick={() => setActiveTab('transactions')}
-                        className={`flex items-center gap-3 w-full p-2.5 rounded-lg ${activeTab === 'transactions' ? 'bg-primary/10 text-primary' : 'hover:bg-text/5'}`}
+                      <Link 
+                        href="/transactions"
+                        className={`flex items-center gap-3 w-full p-2.5 rounded-lg ${activeTab === 'transactions' ? 'bg-[var(--primary-100)] text-[var(--primary-600)]' : 'hover:bg-[var(--background-100)]'}`}
                       >
                         <CreditCard size={18} />
                         <span>Transactions</span>
-                      </button>
+                      </Link>
                     </motion.li>
                   </ul>
                 </div>
@@ -191,16 +191,22 @@ export default function Dashboard() {
                   <p className="text-xs uppercase opacity-50 font-medium mb-2 px-4">Other</p>
                   <ul className="space-y-1">
                     <motion.li whileHover={{ x: 3 }}>
-                      <Link href="/testimonials" className="flex items-center gap-3 w-full p-2.5 rounded-lg hover:bg-text/5">
+                      <Link 
+                        href="/testimonials" 
+                        className={`flex items-center gap-3 w-full p-2.5 rounded-lg ${activeTab === 'testimonials' ? 'bg-[var(--primary-100)] text-[var(--primary-600)]' : 'hover:bg-[var(--background-100)]'}`}
+                      >
                         <Users size={18} />
                         <span>Testimonials</span>
                       </Link>
                     </motion.li>
                     <motion.li whileHover={{ x: 3 }}>
-                      <button className="flex items-center gap-3 w-full p-2.5 rounded-lg hover:bg-text/5">
+                      <Link
+                        href="/settings"
+                        className={`flex items-center gap-3 w-full p-2.5 rounded-lg ${activeTab === 'settings' ? 'bg-[var(--primary-100)] text-[var(--primary-600)]' : 'hover:bg-[var(--background-100)]'}`}
+                      >
                         <Settings size={18} />
                         <span>Settings</span>
-                      </button>
+                      </Link>
                     </motion.li>
                   </ul>
                 </div>
@@ -208,14 +214,23 @@ export default function Dashboard() {
                 {/* Premium Card */}
                 <div className="mt-6">
                   <motion.div 
-                    className="p-4 rounded-lg bg-accent/10 border border-accent/20"
-                    whileHover={{ scale: 1.02 }}
+                    className="p-4 rounded-lg bg-gradient-to-br from-[var(--accent-100)] to-[var(--accent-200)] border border-[var(--accent-300)] card-elevated shadow-md"
+                    whileHover={{ scale: 1.02, boxShadow: '0 8px 20px rgba(0, 0, 0, 0.1)' }}
                   >
-                    <h3 className="text-sm font-medium mb-2">Unlock Premium</h3>
-                    <p className="text-xs opacity-70 mb-3">Get advanced insights and exclusive features</p>
-                    <button className="w-full bg-accent text-xs text-background py-1.5 px-3 rounded-md">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="p-1 bg-[var(--accent-600)] rounded-md text-[var(--background-50)]">
+                        <Zap size={16} />
+                      </div>
+                      <h3 className="text-sm font-medium text-[var(--accent-800)]">Unlock Premium</h3>
+                    </div>
+                    <p className="text-xs opacity-70 mb-3 text-[var(--accent-900)]">Get advanced insights and exclusive features</p>
+                    <motion.button 
+                      className="w-full bg-[var(--accent-500)] text-xs text-[var(--background-50)] py-1.5 px-3 rounded-md shadow-sm"
+                      whileHover={{ y: -2 }}
+                      whileTap={{ y: 0 }}
+                    >
                       Upgrade Now
-                    </button>
+                    </motion.button>
                   </motion.div>
                 </div>
               </nav>
@@ -229,22 +244,22 @@ export default function Dashboard() {
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
             <div>
               <h1 className="text-2xl font-bold">Dashboard Overview</h1>
-              <p className="text-sm opacity-70">Welcome back, Alex! Here's what's happening with your finances.</p>
+              <p className="text-sm opacity-70">Welcome back, Alex! Here&apos;s what&apos;s happening with your finances.</p>
             </div>
             <div className="flex items-center mt-4 md:mt-0 gap-3">
-              <div className="flex items-center border border-text/10 rounded-lg overflow-hidden">
-                <button className="py-1.5 px-3 bg-primary text-background text-sm font-medium">Today</button>
-                <button className="py-1.5 px-3 text-sm hover:bg-text/5">Week</button>
-                <button className="py-1.5 px-3 text-sm hover:bg-text/5">Month</button>
+              <div className="flex items-center border border-[var(--primary-300)]/30 rounded-lg overflow-hidden shadow-sm">
+                <button className="py-1.5 px-3 bg-gradient-to-r from-[var(--primary-400)] to-[var(--primary-500)] text-[var(--background-50)] text-sm font-medium">Today</button>
+                <button className="py-1.5 px-3 text-sm hover:bg-[var(--background-100)]">Week</button>
+                <button className="py-1.5 px-3 text-sm hover:bg-[var(--background-100)]">Month</button>
               </div>
               <motion.button 
-                className="p-2 rounded-lg border border-text/10 hover:bg-text/5"
+                className="p-2 rounded-lg border border-[var(--primary-300)]/30 hover:bg-[var(--background-100)] shadow-sm"
                 whileTap={{ scale: 0.95 }}
               >
                 <Download size={16} />
               </motion.button>
               <motion.button 
-                className="p-2 rounded-lg border border-text/10 hover:bg-text/5"
+                className="p-2 rounded-lg border border-[var(--primary-300)]/30 hover:bg-[var(--background-100)] shadow-sm"
                 whileTap={{ scale: 0.95 }}
               >
                 <Share2 size={16} />
@@ -255,14 +270,14 @@ export default function Dashboard() {
           {/* Quick Summary Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {[
-              { title: "Total Balance", value: "$12,560", change: "+8.2%", color: "text-primary" },
-              { title: "Monthly Savings", value: "$2,140", change: "+12.5%", color: "text-accent" },
-              { title: "Total Expenses", value: "$4,230", change: "-3.1%", color: "text-secondary" },
-              { title: "Goals Progress", value: "68%", change: "+5.3%", color: "text-primary" }
+              { title: "Total Balance", value: "$12,560", change: "+8.2%", color: "text-[var(--primary-500)]", gradient: "from-[var(--primary-100)] to-[var(--primary-200)]", variant: "elevated" },
+              { title: "Monthly Savings", value: "$2,140", change: "+12.5%", color: "text-[var(--accent-500)]", gradient: "from-[var(--accent-100)] to-[var(--accent-200)]", variant: "elevated" },
+              { title: "Total Expenses", value: "$4,230", change: "-3.1%", color: "text-[var(--secondary-500)]", gradient: "from-[var(--secondary-100)] to-[var(--secondary-200)]", variant: "bordered" },
+              { title: "Goals Progress", value: "68%", change: "+5.3%", color: "text-[var(--primary-500)]", gradient: "from-[var(--primary-100)] to-[var(--primary-200)]", variant: "bordered" }
             ].map((card, index) => (
               <motion.div 
                 key={index}
-                className="card p-5 border border-text/10"
+                className={`${card.variant === 'elevated' ? 'card-elevated' : 'card-bordered'} p-5`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
@@ -270,11 +285,19 @@ export default function Dashboard() {
               >
                 <div className="flex justify-between items-center">
                   <p className="text-sm opacity-70">{card.title}</p>
-                  <span className={`text-xs font-medium ${card.change.startsWith('+') ? 'text-green-500' : 'text-red-500'}`}>
+                  <span className={`text-xs font-medium px-2 py-1 rounded-full ${card.change.startsWith('+') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                     {card.change}
                   </span>
                 </div>
                 <h2 className={`text-2xl md:text-3xl font-bold mt-2 ${card.color}`}>{card.value}</h2>
+                <div className="mt-4 h-2 bg-[var(--background-100)] rounded-full overflow-hidden">
+                  <motion.div 
+                    className={`h-full bg-gradient-to-r ${card.gradient}`}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${index === 3 ? 68 : 70 + index * 10}%` }}
+                    transition={{ duration: 1.2, delay: 0.2 }}
+                  ></motion.div>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -282,7 +305,7 @@ export default function Dashboard() {
           {/* Charts and Analytics Row */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
             <motion.div 
-              className="card border border-text/10 p-5 lg:col-span-2"
+              className="card-elevated p-5 lg:col-span-2"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.1 }}
@@ -294,11 +317,11 @@ export default function Dashboard() {
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-secondary"></span>
+                    <span className="w-3 h-3 rounded-full bg-[var(--secondary-400)]"></span>
                     <span className="text-xs">Expenses</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-primary"></span>
+                    <span className="w-3 h-3 rounded-full bg-[var(--primary-400)]"></span>
                     <span className="text-xs">Savings</span>
                   </div>
                 </div>
@@ -318,7 +341,7 @@ export default function Dashboard() {
                   {[0, 1, 2, 3, 4].map((line) => (
                     <div 
                       key={line} 
-                      className="absolute w-full border-t border-text/5" 
+                      className="absolute w-full border-t border-[var(--primary-200)]/10" 
                       style={{ bottom: `${line * 25}%` }}
                     ></div>
                   ))}
@@ -328,7 +351,7 @@ export default function Dashboard() {
                     {expenseData.map((value, i) => (
                       <motion.div 
                         key={`expense-${i}`}
-                        className="w-4 bg-secondary rounded-t-sm opacity-60"
+                        className="w-4 bg-gradient-to-t from-[var(--secondary-400)] to-[var(--secondary-300)] rounded-t-sm opacity-80"
                         style={{ height: `${(value / 2000) * 100}%` }}
                         initial={{ height: 0 }}
                         animate={{ height: `${(value / 2000) * 100}%` }}
@@ -342,7 +365,7 @@ export default function Dashboard() {
                     {savingsData.map((value, i) => (
                       <motion.div 
                         key={`savings-${i}`}
-                        className="w-4 bg-primary rounded-t-sm"
+                        className="w-4 bg-gradient-to-t from-[var(--primary-500)] to-[var(--primary-300)] rounded-t-sm"
                         style={{ height: `${(value / 2000) * 100}%` }}
                         initial={{ height: 0 }}
                         animate={{ height: `${(value / 2000) * 100}%` }}
@@ -354,12 +377,12 @@ export default function Dashboard() {
               </div>
               
               <div className="flex justify-between items-center mt-4">
-                <button className="text-xs text-primary">Detailed Report</button>
+                <button className="text-xs text-[var(--primary-500)] font-medium">Detailed Report</button>
                 <div className="flex gap-1">
-                  <button className="p-1 rounded-md bg-text/5 hover:bg-text/10">
+                  <button className="p-1.5 rounded-md bg-[var(--background-100)] hover:bg-[var(--background-200)]">
                     <ChevronLeft size={16} />
                   </button>
-                  <button className="p-1 rounded-md bg-text/5 hover:bg-text/10">
+                  <button className="p-1.5 rounded-md bg-[var(--background-100)] hover:bg-[var(--background-200)]">
                     <ChevronRight size={16} />
                   </button>
                 </div>
@@ -367,7 +390,7 @@ export default function Dashboard() {
             </motion.div>
             
             <motion.div 
-              className="card border border-text/10 p-5"
+              className="card-bordered p-5"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.2 }}
@@ -379,23 +402,23 @@ export default function Dashboard() {
               
               {/* Pie chart mockup */}
               <div className="relative h-48 w-48 mx-auto my-4">
-                <div className="absolute inset-0 rounded-full border-8 border-text/5"></div>
+                <div className="absolute inset-0 rounded-full border-8 border-[var(--background-200)]"></div>
                 <motion.div 
-                  className="absolute inset-0 rounded-full border-8 border-primary"
+                  className="absolute inset-0 rounded-full border-8 border-[var(--primary-400)]"
                   style={{ borderLeftColor: 'transparent', borderBottomColor: 'transparent' }}
                   initial={{ rotate: -90 }}
                   animate={{ rotate: 45 }}
                   transition={{ duration: 1, delay: 0.3 }}
                 ></motion.div>
                 <motion.div 
-                  className="absolute inset-0 rounded-full border-8 border-secondary"
+                  className="absolute inset-0 rounded-full border-8 border-[var(--secondary-400)]"
                   style={{ borderRightColor: 'transparent', borderBottomColor: 'transparent' }}
                   initial={{ rotate: -90 }}
                   animate={{ rotate: 0 }}
                   transition={{ duration: 1, delay: 0.4 }}
                 ></motion.div>
                 <motion.div 
-                  className="absolute inset-0 rounded-full border-8 border-accent"
+                  className="absolute inset-0 rounded-full border-8 border-[var(--accent-400)]"
                   style={{ borderLeftColor: 'transparent', borderTopColor: 'transparent', borderRightColor: 'transparent' }}
                   initial={{ rotate: -90 }}
                   animate={{ rotate: 115 }}
@@ -408,12 +431,12 @@ export default function Dashboard() {
               
               <div className="space-y-2 mt-6">
                 {[
-                  { name: "Housing", percentage: 35, amount: "$1,480", color: "bg-primary" },
-                  { name: "Food", percentage: 25, amount: "$1,060", color: "bg-secondary" },
-                  { name: "Entertainment", percentage: 15, amount: "$635", color: "bg-accent" },
-                  { name: "Other", percentage: 25, amount: "$1,055", color: "bg-text/30" }
+                  { name: "Housing", percentage: 35, amount: "$1,480", color: "bg-[var(--primary-400)]" },
+                  { name: "Food", percentage: 25, amount: "$1,060", color: "bg-[var(--secondary-400)]" },
+                  { name: "Entertainment", percentage: 15, amount: "$635", color: "bg-[var(--accent-400)]" },
+                  { name: "Other", percentage: 25, amount: "$1,055", color: "bg-[var(--background-800)]" }
                 ].map((category, index) => (
-                  <div key={index} className="flex items-center justify-between">
+                  <div key={index} className="flex items-center justify-between p-2 hover:bg-[var(--background-100)] rounded-lg transition-colors">
                     <div className="flex items-center gap-2">
                       <div className={`w-3 h-3 rounded-full ${category.color}`}></div>
                       <span className="text-sm">{category.name}</span>
@@ -428,11 +451,16 @@ export default function Dashboard() {
             </motion.div>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Left Column - Savings Goals */}
-            <div className="lg:col-span-2 order-2 lg:order-1">
+            <motion.div 
+              className="lg:col-span-2 order-2 lg:order-1"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
+            >
               <GoalsList initialGoals={mockSavingsGoals} />
-            </div>
+            </motion.div>
 
             {/* Right Column - Monthly Summary & Gamification */}
             <div className="space-y-6 order-1 lg:order-2">
@@ -443,7 +471,7 @@ export default function Dashboard() {
           
           {/* Recent Transactions */}
           <motion.div 
-            className="mt-8 card border border-text/10 p-5"
+            className="mt-8 card-elevated p-5"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.3 }}
@@ -453,13 +481,13 @@ export default function Dashboard() {
                 <h3 className="text-lg font-medium">Recent Transactions</h3>
                 <p className="text-xs opacity-70">Your latest financial activity</p>
               </div>
-              <button className="text-sm text-primary">View All</button>
+              <button className="text-sm text-[var(--primary-500)] font-medium">View All</button>
             </div>
             
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-text/10">
+                  <tr className="border-b border-[var(--primary-200)]/20">
                     <th className="text-left py-3 px-4 text-sm font-medium opacity-70">Transaction</th>
                     <th className="text-left py-3 px-4 text-sm font-medium opacity-70">Date</th>
                     <th className="text-left py-3 px-4 text-sm font-medium opacity-70">Category</th>
@@ -476,11 +504,10 @@ export default function Dashboard() {
                   ].map((transaction, index) => (
                     <motion.tr 
                       key={index} 
-                      className="border-b border-text/5 hover:bg-text/5"
+                      className="border-b border-[var(--primary-200)]/10 hover:bg-[var(--background-100)]"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.3, delay: 0.1 + index * 0.05 }}
-                      whileHover={{ backgroundColor: "rgba(var(--text), 0.05)" }}
                     >
                       <td className="py-3 px-4">
                         <span className="text-sm font-medium">{transaction.name}</span>
@@ -489,7 +516,7 @@ export default function Dashboard() {
                         <span className="text-sm opacity-70">{transaction.date}</span>
                       </td>
                       <td className="py-3 px-4">
-                        <span className="text-xs font-medium px-2 py-1 rounded-full bg-text/5">{transaction.category}</span>
+                        <span className="text-xs font-medium px-2 py-1 rounded-full bg-[var(--primary-100)]">{transaction.category}</span>
                       </td>
                       <td className="py-3 px-4 text-right">
                         <span className={`text-sm font-medium ${transaction.color}`}>{transaction.amount}</span>
@@ -501,7 +528,7 @@ export default function Dashboard() {
             </div>
             
             <div className="mt-4 text-center">
-              <button className="text-primary text-sm hover:underline">Load more transactions</button>
+              <button className="text-[var(--primary-500)] text-sm hover:underline font-medium">Load more transactions</button>
             </div>
           </motion.div>
           
@@ -513,29 +540,32 @@ export default function Dashboard() {
                 {
                   title: "50/30/20 Budgeting Rule",
                   description: "Allocate 50% to needs, 30% to wants, and 20% to savings and debt repayment.",
-                  icon: <PieChart size={20} />
+                  icon: <PieChart size={20} />,
+                  variant: "elevated"
                 },
                 {
                   title: "Start Emergency Fund",
                   description: "Aim to save 3-6 months of expenses in an easily accessible account.",
-                  icon: <DollarSign size={20} />
+                  icon: <DollarSign size={20} />,
+                  variant: "bordered"
                 },
                 {
                   title: "Track Your Spending",
                   description: "Review your spending patterns to find opportunities to save more.",
-                  icon: <BarChart3 size={20} />
+                  icon: <BarChart3 size={20} />,
+                  variant: "elevated"
                 }
               ].map((tip, index) => (
                 <motion.div 
                   key={index}
-                  className="card border border-text/10 p-4 flex items-start gap-3"
+                  className={`${tip.variant === 'elevated' ? 'card-elevated' : 'card-bordered'} p-4 flex items-start gap-3`}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
                   whileHover={{ y: -5 }}
                 >
-                  <div className="p-2.5 rounded-full bg-primary/10 text-primary mt-0.5">
+                  <div className="p-2.5 rounded-full bg-[var(--primary-100)] text-[var(--primary-600)] mt-0.5">
                     {tip.icon}
                   </div>
                   <div>
@@ -548,12 +578,12 @@ export default function Dashboard() {
           </div>
           
           {/* Footer */}
-          <footer className="border-t border-text/10 pt-6 pb-8 text-center text-xs opacity-70">
+          <footer className="border-t border-[var(--primary-200)]/20 pt-6 pb-8 text-center text-xs opacity-70">
             <p>© 2025 GoalStack. All rights reserved.</p>
             <div className="flex justify-center gap-4 mt-2">
-              <Link href="#" className="hover:text-primary">Privacy Policy</Link>
-              <Link href="#" className="hover:text-primary">Terms of Service</Link>
-              <Link href="/testimonials" className="hover:text-primary">Testimonials</Link>
+              <Link href="#" className="hover:text-[var(--primary)]">Privacy Policy</Link>
+              <Link href="#" className="hover:text-[var(--primary)]">Terms of Service</Link>
+              <Link href="/testimonials" className="hover:text-[var(--primary)]">Testimonials</Link>
             </div>
           </footer>
         </main>

@@ -29,7 +29,7 @@ Submitted for: [Frontend UI Hackathon 2025](https://form.typeform.com/to/Hljx9wa
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/GoalStack.git
+git clone https://github.com/laxmankondhalkar/GoalStack.git
 cd GoalStack
 ```
 

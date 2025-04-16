@@ -1,5 +1,6 @@
-import { mockSavingsGoals } from './data/mockData';
+import { mockSavingsGoals, mockMonthlySummary } from './data/mockData';
 import GoalsList from './components/GoalsList';
+import MonthlySummary from './components/MonthlySummary';
 
 export default function Home() {
   return (
@@ -24,12 +25,9 @@ export default function Home() {
           <GoalsList goals={mockSavingsGoals} />
         </div>
 
-        {/* Right Column - Placeholder for Monthly Summary & Gamification */}
+        {/* Right Column - Monthly Summary & Gamification */}
         <div className="space-y-6">
-          <div className="card border border-gray-100">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">Monthly Summary</h2>
-            <p className="text-gray-500">(Coming soon...)</p>
-          </div>
+          <MonthlySummary data={mockMonthlySummary} />
           
           <div className="card border border-gray-100">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Achievements</h2>

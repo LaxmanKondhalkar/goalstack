@@ -1,14 +1,22 @@
 'use client';
 
+import { useState } from 'react';
 import { SavingsGoal } from '../types';
 import GoalCard from './GoalCard';
 import { motion } from 'framer-motion';
+import AddGoalForm from './AddGoalForm';
 
 interface GoalsListProps {
-  goals: SavingsGoal[];
+  initialGoals: SavingsGoal[];
 }
 
-export default function GoalsList({ goals }: GoalsListProps) {
+export default function GoalsList({ initialGoals }: GoalsListProps) {
+  const [goals, setGoals] = useState<SavingsGoal[]>(initialGoals);
+  
+  const handleAddGoal = (newGoal: SavingsGoal) => {
+    setGoals((prevGoals) => [...prevGoals, newGoal]);
+  };
+
   return (
     <motion.div 
       className="space-y-4"
@@ -21,7 +29,9 @@ export default function GoalsList({ goals }: GoalsListProps) {
         <span className="text-sm font-medium text-gray-500">{goals.length} goals</span>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <AddGoalForm onAddGoal={handleAddGoal} />
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
         {goals.map((goal) => (
           <GoalCard key={goal.id} goal={goal} />
         ))}

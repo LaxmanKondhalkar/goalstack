@@ -22,7 +22,7 @@ export default function Home() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column - Savings Goals */}
         <div className="lg:col-span-2">
-          <GoalsList goals={mockSavingsGoals} />
+          <GoalsList initialGoals={mockSavingsGoals} />
         </div>
 
         {/* Right Column - Monthly Summary & Gamification */}

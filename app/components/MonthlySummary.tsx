@@ -1,138 +1,98 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import { PieChart, Calendar, DollarSign, ArrowUpCircle, ArrowDownCircle, PiggyBank } from 'lucide-react';
 import { MonthlySummary as MonthlySummaryType } from '../types';
+import { motion } from 'framer-motion';
 
 interface MonthlySummaryProps {
   data: MonthlySummaryType;
 }
 
 export default function MonthlySummary({ data }: MonthlySummaryProps) {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-  // Prepare data for pie chart
-  const pieData = [
-    { name: 'Expenses', value: data.expenses, color: '#4f46e5' },
-    { name: 'Savings', value: data.savings, color: '#22c55e' },
-  ];
-
-  // Animation variants for Framer Motion
-  const containerVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
-
-  const statVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: (i: number) => ({
-      opacity: 1,
-      scale: 1,
-      transition: { delay: i * 0.1 }
-    })
-  };
-
+  const { income, expenses, savings, month, year } = data;
+  
+  const savingsPercentage = Math.round((savings / income) * 100);
+  
   return (
     <motion.div 
-      className="card bg-white"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      transition={{ duration: 0.5 }}
+      className="card border border-text/5"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
     >
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold text-gray-800">Monthly Summary</h2>
-        <span className="text-sm font-medium text-gray-500">{data.month} {data.year}</span>
-      </div>
-
-      {/* Stats Overview */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        <motion.div 
-          className="bg-blue-50 p-3 rounded-lg"
-          variants={statVariants}
-          custom={0}
-          initial="hidden"
-          animate="visible"
-        >
-          <p className="text-xs text-blue-600 font-medium">Income</p>
-          <p className="text-lg font-bold text-gray-800">₹{data.income.toLocaleString()}</p>
-        </motion.div>
-        
-        <motion.div 
-          className="bg-indigo-50 p-3 rounded-lg"
-          variants={statVariants}
-          custom={1}
-          initial="hidden"
-          animate="visible"
-        >
-          <p className="text-xs text-indigo-600 font-medium">Expenses</p>
-          <p className="text-lg font-bold text-gray-800">₹{data.expenses.toLocaleString()}</p>
-        </motion.div>
-        
-        <motion.div 
-          className="bg-green-50 p-3 rounded-lg"
-          variants={statVariants}
-          custom={2}
-          initial="hidden"
-          animate="visible"
-        >
-          <p className="text-xs text-green-600 font-medium">Savings</p>
-          <p className="text-lg font-bold text-gray-800">₹{data.savings.toLocaleString()}</p>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex itemscenter">
+          <Calendar className="mr-2" size={18} style={{ color: 'var(--primary)' }} />
+          <h2 className="text-lg sm:text-xl font-semibold">{month} {year}</h2>
+        </div>
+        <motion.div whileHover={{ rotate: 10 }} transition={{ duration: 0.2 }}>
+          <PieChart size={20} style={{ color: 'var(--accent)' }} />
         </motion.div>
       </div>
-
-      {/* Pie Chart */}
-      <motion.div 
-        className="h-48"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3, duration: 0.5 }}
-      >
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            <Pie
-              data={pieData}
-              cx="50%"
-              cy="50%"
-              innerRadius={60}
-              outerRadius={80}
-              paddingAngle={2}
-              dataKey="value"
-              onMouseEnter={(_, index) => setActiveIndex(index)}
-              onMouseLeave={() => setActiveIndex(null)}
-              animationBegin={300}
-              animationDuration={800}
-            >
-              {pieData.map((entry, index) => (
-                <Cell 
-                  key={`cell-${index}`} 
-                  fill={entry.color} 
-                  opacity={activeIndex === null || activeIndex === index ? 1 : 0.7}
-                  stroke="#fff"
-                  strokeWidth={1}
-                />
-              ))}
-            </Pie>
-            <Tooltip 
-              formatter={(value: number) => [`₹${value.toLocaleString()}`, undefined]}
-            />
-          </PieChart>
-        </ResponsiveContainer>
-      </motion.div>
-
+      
+      <div className="grid grid-cols-1 gap-4">
+        {/* Income */}
+        <motion.div 
+          className="p-3 rounded-lg flex items-center"
+          whileHover={{ scale: 1.02 }}
+          style={{ background: 'var(--primary)', opacity: 0.1 }}
+        >
+          <div className="p-2 rounded-full mr-3" style={{ background: 'var(--primary)', opacity: 0.2 }}>
+            <ArrowUpCircle size={16} style={{ color: 'var(--primary)' }} />
+          </div>
+          <div className="flex-1">
+            <p className="text-xs opacity-70">Income</p>
+            <p className="text-sm sm:text-base font-semibold">${income.toLocaleString()}</p>
+          </div>
+        </motion.div>
+        
+        {/* Expenses */}
+        <motion.div 
+          className="p-3 rounded-lg flex items-center"
+          whileHover={{ scale: 1.02 }}
+          style={{ background: 'var(--secondary)', opacity: 0.1 }}
+        >
+          <div className="p-2 rounded-full mr-3" style={{ background: 'var(--secondary)', opacity: 0.2 }}>
+            <ArrowDownCircle size={16} style={{ color: 'var(--secondary)' }} />
+          </div>
+          <div className="flex-1">
+            <p className="text-xs opacity-70">Expenses</p>
+            <p className="text-sm sm:text-base font-semibold">${expenses.toLocaleString()}</p>
+          </div>
+        </motion.div>
+        
+        {/* Savings */}
+        <motion.div 
+          className="p-3 rounded-lg flex items-center"
+          whileHover={{ scale: 1.02 }}
+          style={{ background: 'var(--accent)', opacity: 0.1 }}
+        >
+          <div className="p-2 rounded-full mr-3" style={{ background: 'var(--accent)', opacity: 0.2 }}>
+            <PiggyBank size={16} style={{ color: 'var(--accent)' }} />
+          </div>
+          <div className="flex-1">
+            <p className="text-xs opacity-70">Savings</p>
+            <p className="text-sm sm:text-base font-semibold">${savings.toLocaleString()}</p>
+          </div>
+        </motion.div>
+      </div>
+      
       {/* Savings Rate */}
-      <motion.div 
-        className="mt-4 text-center"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-      >
-        <p className="text-sm text-gray-500">Savings Rate</p>
-        <p className="text-2xl font-bold text-indigo-600">
-          {Math.round((data.savings / data.income) * 100)}%
-        </p>
-      </motion.div>
+      <div className="mt-4">
+        <div className="flex justify-between items-center mb-1">
+          <p className="text-xs opacity-70">Savings Rate</p>
+          <p className="text-xs font-medium">{savingsPercentage}%</p>
+        </div>
+        <div className="w-full h-2 bg-text/10 rounded-full">
+          <motion.div 
+            className="h-full rounded-full"
+            style={{ background: 'var(--accent)', width: `${savingsPercentage}%` }}
+            initial={{ width: 0 }}
+            animate={{ width: `${savingsPercentage}%` }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          />
+        </div>
+      </div>
     </motion.div>
   );
 }

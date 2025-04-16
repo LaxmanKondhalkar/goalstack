@@ -4,42 +4,69 @@
 @tailwind components;
 @tailwind utilities;
 
+:root[data-theme="light"] {
+  --text: #180e01;
+  --background: #fffdfa;
+  --primary: #f4a61f;
+  --secondary: #71bef9;
+  --accent: #8645f7;
+}
+
+:root[data-theme="dark"] {
+  --text: #fef4e7;
+  --background: #050300;
+  --primary: #e0920b;
+  --secondary: #06538e;
+  --accent: #4908ba;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --text: #180e01;
+  --background: #fffdfa;
+  --primary: #f4a61f;
+  --secondary: #71bef9;
+  --accent: #8645f7;
   --font-poppins: var(--font-poppins);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme="light"]) {
+    --text: #fef4e7;
+    --background: #050300;
+    --primary: #e0920b;
+    --secondary: #06538e;
+    --accent: #4908ba;
   }
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: var(--text);
   font-family: var(--font-poppins), system-ui, sans-serif;
 }
 
 @layer components {
   .card {
-    @apply bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition-shadow duration-300;
+    @apply rounded-xl shadow-sm p-4 hover:shadow-md transition-shadow duration-300;
+    background-color: var(--background);
+    border: 1px solid rgba(var(--text), 0.1);
   }
   
   .btn-primary {
-    @apply bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300;
+    @apply font-medium py-2 px-4 rounded-lg transition-all duration-300;
+    background-color: var(--primary);
+    color: var(--background);
   }
 
   .btn-secondary {
-    @apply bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded-lg transition-all duration-300;
+    @apply font-medium py-2 px-4 rounded-lg transition-all duration-300;
+    background-color: var(--secondary);
+    color: var(--background);
+  }
+  
+  .btn-accent {
+    @apply font-medium py-2 px-4 rounded-lg transition-all duration-300;
+    background-color: var(--accent);
+    color: var(--background);
   }
 }

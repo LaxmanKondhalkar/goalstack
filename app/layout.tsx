@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "./components/ThemeProvider";
 
 const poppins = Poppins({
   weight: ["300", "400", "500", "600", "700"],
@@ -20,10 +21,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${poppins.variable} font-poppins bg-gray-50 min-h-screen`}
-      >
-        {children}
+      <body className={`${poppins.variable} font-poppins min-h-screen`}>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

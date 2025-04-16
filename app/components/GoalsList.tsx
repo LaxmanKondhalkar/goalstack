@@ -1,0 +1,31 @@
+'use client';
+
+import { SavingsGoal } from '../types';
+import GoalCard from './GoalCard';
+import { motion } from 'framer-motion';
+
+interface GoalsListProps {
+  goals: SavingsGoal[];
+}
+
+export default function GoalsList({ goals }: GoalsListProps) {
+  return (
+    <motion.div 
+      className="space-y-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ staggerChildren: 0.1 }}
+    >
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-semibold text-gray-800">My Savings Goals</h2>
+        <span className="text-sm font-medium text-gray-500">{goals.length} goals</span>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {goals.map((goal) => (
+          <GoalCard key={goal.id} goal={goal} />
+        ))}
+      </div>
+    </motion.div>
+  );
+}

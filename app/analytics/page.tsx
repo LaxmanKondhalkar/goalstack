@@ -112,10 +112,10 @@ export default function AnalyticsPage() {
               <div className={`p-2.5 rounded-full ${metric.bgColor} ${metric.color}`}>
                 {metric.icon}
               </div>
-              <div>
+              <div className="min-w-0 flex-1">
                 <p className="text-sm opacity-70">{metric.title}</p>
-                <div className="flex items-center gap-2">
-                  <h2 className="text-xl md:text-2xl font-bold">{metric.value}</h2>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h2 className="text-lg md:text-xl lg:text-2xl font-bold truncate">{metric.value}</h2>
                   <span className={`text-xs font-medium px-1.5 rounded-full ${metric.isPositive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                     {metric.change}
                   </span>
@@ -159,7 +159,7 @@ export default function AnalyticsPage() {
                     </div>
                     <div>
                       <h4 className="font-medium">{goal.name}</h4>
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1 flex-wrap">
                         <span className="text-xs opacity-70">{goal.category}</span>
                         <span className="text-xs bg-[var(--background-200)] px-2 py-0.5 rounded-full">
                           ${goal.currentAmount.toLocaleString()} / ${goal.targetAmount.toLocaleString()}
@@ -195,7 +195,7 @@ export default function AnalyticsPage() {
                 <div className="mt-4 pt-3 border-t border-[var(--primary-200)]/10">
                   <div className="flex items-center justify-between text-sm">
                     <span className="opacity-70">Recent contribution</span>
-                    <span className="font-medium">
+                    <span className="font-medium truncate max-w-[180px]">
                       +${goal.contributions[goal.contributions.length - 1].amount.toLocaleString()} 
                       <span className="text-xs opacity-70 ml-1">
                         ({new Date(goal.contributions[goal.contributions.length - 1].date).toLocaleDateString()})

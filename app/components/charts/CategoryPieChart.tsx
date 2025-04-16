@@ -68,15 +68,16 @@ export default function CategoryPieChart({ data }: CategoryPieChartProps) {
   });
 
   return (
-    <div className="card-bordered p-5">
-      <div className="mb-4">
-        <h3 className="font-medium">Spending Categories</h3>
-        <p className="text-xs opacity-70">Where your money is going</p>
+    <div className="card-elevated p-5">
+      <div className="flex justify-between mb-6">
+        <div className="mb-4">
+          <h3 className="font-medium">Spending Categories</h3>
+          <p className="text-xs opacity-70">Where your money is going</p>
+        </div>
       </div>
-
-      <div className="flex flex-col md:flex-row items-center justify-between">
-        {/* Pie chart */}
-        <div className="relative h-48 w-48 mx-auto my-4">
+      
+      <div className="flex flex-col md:flex-row items-center px-4"> {/* Added horizontal padding */}
+        <div className="relative w-40 h-40 md:w-48 md:h-48">
           <svg viewBox="0 0 200 200" className="transform -rotate-90">
             {segments.map((segment, index) => (
               <motion.path
@@ -109,9 +110,9 @@ export default function CategoryPieChart({ data }: CategoryPieChartProps) {
             </div>
           </div>
         </div>
-
-        {/* Legend */}
-        <div className="space-y-2 mt-4 md:mt-0 md:max-h-48 md:overflow-y-auto w-full md:w-1/2">
+        
+        <div className="mt-6 md:mt-0 md:ml-6 flex-1 space-y-3"> 
+          {/* Added flex-1 to prevent content from overflowing */}
           {sortedData.map((category) => (
             <div 
               key={category.category} 

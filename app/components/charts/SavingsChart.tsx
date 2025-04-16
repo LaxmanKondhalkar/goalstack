@@ -62,7 +62,7 @@ export default function SavingsChart({ data }: SavingsChartProps) {
       </div>
       
       <div className="h-64 relative">
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 pl-8"> {/* Added left padding */}
           {/* Y axis grid lines */}
           {[0, 1, 2, 3, 4].map((line) => (
             <div 
@@ -70,7 +70,7 @@ export default function SavingsChart({ data }: SavingsChartProps) {
               className="absolute w-full border-t border-[var(--primary-200)]/10" 
               style={{ bottom: `${line * 25}%` }}
             >
-              <span className="absolute -left-6 -top-2 text-xs opacity-50">
+              <span className="absolute -translate-x-full -ml-2 -top-2 text-xs opacity-50">
                 ${Math.round((maxAmount * line) / 4).toLocaleString()}
               </span>
             </div>

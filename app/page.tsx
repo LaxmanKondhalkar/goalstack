@@ -1,6 +1,7 @@
-import { mockSavingsGoals, mockMonthlySummary } from './data/mockData';
+import { mockSavingsGoals, mockMonthlySummary, mockGamificationData } from './data/mockData';
 import GoalsList from './components/GoalsList';
 import MonthlySummary from './components/MonthlySummary';
+import GamificationPanel from './components/GamificationPanel';
 
 export default function Home() {
   return (
@@ -28,11 +29,7 @@ export default function Home() {
         {/* Right Column - Monthly Summary & Gamification */}
         <div className="space-y-6">
           <MonthlySummary data={mockMonthlySummary} />
-          
-          <div className="card border border-gray-100">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">Achievements</h2>
-            <p className="text-gray-500">(Coming soon...)</p>
-          </div>
+          <GamificationPanel data={mockGamificationData} />
         </div>
       </div>
     </main>

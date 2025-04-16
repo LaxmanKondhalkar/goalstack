@@ -78,11 +78,11 @@ export default function GoalsList({ initialGoals }: GoalsListProps) {
         </motion.div>
       ) : (
         <div className="grid grid-cols-1 gap-5">
-          {goals.map((goal, index) => (
+          {goals.map((goal) => (
             <GoalCard 
               key={goal.id} 
               goal={goal} 
-              variant={index % 3 === 0 ? 'elevated' : index % 3 === 1 ? 'bordered' : 'default'}
+              variant="elevated"
             />
           ))}
         </div>

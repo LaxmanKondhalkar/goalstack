@@ -7,9 +7,14 @@ import { ArrowUpCircle, CheckCircle } from 'lucide-react';
 interface GoalCardProps {
   goal: SavingsGoal;
   variant?: 'default' | 'elevated' | 'bordered';
+  onAddFunds?: () => void;
 }
 
-export default function GoalCard({ goal, variant = 'default' }: GoalCardProps) {
+export default function GoalCard({ 
+  goal, 
+  variant = 'default', 
+  onAddFunds 
+}: GoalCardProps) {
   const { name, currentAmount, targetAmount, icon } = goal;
   
   const progressPercentage = Math.min(Math.round((currentAmount / targetAmount) * 100), 100);
@@ -21,6 +26,23 @@ export default function GoalCard({ goal, variant = 'default' }: GoalCardProps) {
     : variant === 'bordered' 
       ? 'card-bordered'
       : 'card';
+  
+  // Standardized color selection based on progress
+  const getColorTheme = () => {
+    if (progressPercentage >= 100) return 'accent';
+    if (progressPercentage >= 66) return 'primary';
+    return 'secondary';
+  };
+  
+  const colorTheme = getColorTheme();
+  
+  // Progress status text
+  const getProgressStatus = () => {
+    if (progressPercentage >= 100) return 'Goal reached! 🎉';
+    if (progressPercentage >= 80) return 'Almost there!';
+    if (progressPercentage >= 50) return 'Making progress';
+    return 'Just started';
+  };
   
   return (
     <motion.div 
@@ -34,8 +56,8 @@ export default function GoalCard({ goal, variant = 'default' }: GoalCardProps) {
         <div 
           className="w-10 h-10 rounded-lg flex items-center justify-center text-lg sm:text-xl mr-3 shadow-sm"
           style={{ 
-            background: `var(--${progressPercentage < 33 ? 'secondary-100' : progressPercentage < 66 ? 'primary-100' : 'accent-100'})`,
-            color: `var(--${progressPercentage < 33 ? 'secondary-700' : progressPercentage < 66 ? 'primary-700' : 'accent-700'})`
+            background: `var(--${colorTheme}-100)`,
+            color: `var(--${colorTheme}-700)`
           }}
         >
           {icon}
@@ -53,7 +75,7 @@ export default function GoalCard({ goal, variant = 'default' }: GoalCardProps) {
           <span className="text-[var(--text)]/70">Progress</span>
           <span 
             className="font-medium"
-            style={{ color: `var(--${progressPercentage < 33 ? 'secondary-600' : progressPercentage < 66 ? 'primary-600' : 'accent-600'})` }}
+            style={{ color: `var(--${colorTheme}-600)` }}
           >
             {progressPercentage}%
           </span>
@@ -62,7 +84,7 @@ export default function GoalCard({ goal, variant = 'default' }: GoalCardProps) {
           <motion.div 
             className="h-full relative"
             style={{ 
-              background: `var(--${progressPercentage < 33 ? 'secondary-400' : progressPercentage < 66 ? 'primary-400' : 'accent-500'})`,
+              background: `var(--${colorTheme}-500)`,
               width: `${progressPercentage}%` 
             }}
             initial={{ width: 0 }}
@@ -71,7 +93,7 @@ export default function GoalCard({ goal, variant = 'default' }: GoalCardProps) {
           >
             {progressPercentage >= 100 && (
               <motion.div 
-                className="absolute inset-0 opacity-30 bg-[var(--accent-100)]"
+                className="absolute inset-0 opacity-30 bg-white"
                 animate={{ opacity: [0.1, 0.3, 0.1] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               />
@@ -84,15 +106,12 @@ export default function GoalCard({ goal, variant = 'default' }: GoalCardProps) {
         <motion.button 
           className="text-xs py-1.5 px-3.5 rounded-full flex items-center gap-1 font-medium shadow-sm"
           style={{ 
-            background: progressPercentage >= 100 
-              ? 'var(--accent-100)' 
-              : 'var(--primary-100)', 
-            color: progressPercentage >= 100 
-              ? 'var(--accent-700)' 
-              : 'var(--primary-700)' 
+            background: `var(--${colorTheme}-100)`,
+            color: `var(--${colorTheme}-700)`
           }}
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
+          onClick={onAddFunds}
         >
           {progressPercentage >= 100 ? (
             <>
@@ -109,21 +128,11 @@ export default function GoalCard({ goal, variant = 'default' }: GoalCardProps) {
         <span 
           className="text-xs flex items-center px-2 py-1 rounded-full"
           style={{ 
-            background: progressPercentage >= 100 
-              ? 'var(--accent-100)' 
-              : progressPercentage >= 80 
-                ? 'var(--primary-100)'
-                : 'var(--secondary-100)',
-            color: progressPercentage >= 100 
-              ? 'var(--accent-700)' 
-              : progressPercentage >= 80 
-                ? 'var(--primary-700)'
-                : 'var(--secondary-700)'
+            background: `var(--${colorTheme}-100)`,
+            color: `var(--${colorTheme}-700)`
           }}
         >
-          {progressPercentage < 50 ? 'Just started' : 
-           progressPercentage < 80 ? 'Making progress' : 
-           progressPercentage < 100 ? 'Almost there!' : 'Goal reached! 🎉'}
+          {getProgressStatus()}
         </span>
       </div>
     </motion.div>

@@ -1,6 +1,6 @@
-# GoalStack
+# GoalStack – Frontend UI Hackathon 2025 Submission
 
-A modern, interactive savings goal tracker that helps users visualize and manage their financial objectives.
+GoalStack is a submission for **Frontend UI Hackathon 2025 (#2)** under the **Dashboards and Data Visualization** category. It’s a modern, responsive savings goal tracker that allows users to visually manage and track progress toward their financial objectives with engaging UI elements and smooth interactions.
 
 ![GoalStack App Screenshot](./public/screenshot.png)
 
@@ -17,6 +17,8 @@ GoalStack is a web application designed to help users set, track, and achieve th
 - **Consistent Design**: Unified design language across components
 
 ## 🚀 Technologies
+
+Submitted for: [Frontend UI Hackathon 2025](https://form.typeform.com/to/Hljx9wab)
 
 - **Framework**: Next.js (React)
 - **Styling**: Tailwind CSS with custom variables
@@ -88,7 +90,7 @@ GoalStack uses a custom design system with CSS variables for consistent theming:
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! (Note: This is a hackathon submission, so feature requests and improvements are welcome after the judging period.)
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
@@ -106,3 +108,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Framer Motion](https://www.framer.com/motion/)
 - [Lucide Icons](https://lucide.dev/)
+- Submitted as part of Frontend UI Hackathon 2025 organized by Outlier

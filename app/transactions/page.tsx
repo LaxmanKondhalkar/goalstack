@@ -1,254 +1,148 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { 
+  Search, CircleDollarSign, ArrowDownCircle, 
+  ArrowUpCircle 
+} from 'lucide-react';
 import AppLayout from '../components/AppLayout';
 import TransactionList from '../components/TransactionList';
-import { mockTransactions, mockSavingsGoals, getTransactionsByGoal } from '../data/mockData';
-import { Transaction, TimeRange } from '../types';
-import { PlusCircle, Calendar, ArrowDownCircle, ArrowUpCircle, CreditCard, Clock, RefreshCw } from 'lucide-react';
+import { getTransactionsByDateRange, mockTransactions } from '../data/mockData';
 
 export default function TransactionsPage() {
-  const [timeRange, setTimeRange] = useState<TimeRange>('month');
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
-  
-  // Get all transactions for the current time range
-  const getFilteredTransactions = () => {
+  // Date range state
+  const [dateRange, setDateRange] = useState<{ start: string; end: string }>(() => {
     const now = new Date();
-    let startDate = new Date();
+    const startDate = new Date();
+    startDate.setMonth(now.getMonth() - 1);
     
-    switch (timeRange) {
-      case 'week':
-        startDate.setDate(now.getDate() - 7);
-        break;
-      case 'month':
-        startDate.setMonth(now.getMonth() - 1);
-        break;
-      case 'quarter':
-        startDate.setMonth(now.getMonth() - 3);
-        break;
-      case 'year':
-        startDate.setFullYear(now.getFullYear() - 1);
-        break;
+    return {
+      start: startDate.toISOString().split('T')[0],
+      end: now.toISOString().split('T')[0]
+    };
+  });
+  
+  // Filtered transactions
+  const [transactions, setTransactions] = useState(mockTransactions);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [typeFilter, setTypeFilter] = useState<string | null>(null);
+  
+  // Update transactions when date range or filters change
+  useEffect(() => {
+    let filtered = getTransactionsByDateRange(dateRange.start, dateRange.end);
+    
+    if (searchTerm) {
+      filtered = filtered.filter(t => 
+        t.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        t.category.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     }
     
-    return mockTransactions.filter(t => {
-      const transactionDate = new Date(t.date);
-      return transactionDate >= startDate && transactionDate <= now;
-    });
-  };
-
-  // Get statistics for the filtered transactions
-  const getTransactionStatistics = () => {
-    const filtered = getFilteredTransactions();
+    if (typeFilter) {
+      filtered = filtered.filter(t => t.type === typeFilter);
+    }
     
-    const income = filtered
-      .filter(t => t.type === 'income')
-      .reduce((sum, t) => sum + t.amount, 0);
-      
-    const expenses = filtered
-      .filter(t => t.type === 'expense')
-      .reduce((sum, t) => sum + Math.abs(t.amount), 0);
-      
-    const savings = filtered
-      .filter(t => t.type === 'saving')
-      .reduce((sum, t) => sum + Math.abs(t.amount), 0);
-      
-    const totalTransactions = filtered.length;
-    
-    return { income, expenses, savings, totalTransactions };
-  };
-
-  const stats = getTransactionStatistics();
+    setTransactions(filtered);
+  }, [dateRange, searchTerm, typeFilter]);
 
   return (
     <AppLayout>
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold">Transactions</h1>
-        <p className="text-sm opacity-70">View and manage your financial transactions</p>
-      </div>
-
-      {/* Time filter tabs */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-        <div className="flex items-center border border-[var(--primary-300)]/30 rounded-lg overflow-hidden shadow-sm">
-          {(['week', 'month', 'quarter', 'year'] as TimeRange[]).map((range) => (
-            <button 
-              key={range}
-              onClick={() => setTimeRange(range)}
-              className={`py-1.5 px-3 text-sm font-medium ${
-                timeRange === range 
-                  ? 'bg-gradient-to-r from-[var(--primary-400)] to-[var(--primary-500)] text-[var(--background-50)]' 
-                  : 'hover:bg-[var(--background-100)]'
-              }`}
-            >
-              {range.charAt(0).toUpperCase() + range.slice(1)}
-            </button>
-          ))}
+      <div className="p-6">
+        {/* Page Header */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
+          <div className="flex items-center gap-3 mb-4 md:mb-0">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[var(--secondary-400)] to-[var(--secondary-600)] flex items-center justify-center text-[var(--background-50)]">
+              <CircleDollarSign size={20} />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold">Transactions</h1>
+              <p className="text-sm opacity-70">Monitor your spending and saving activities</p>
+            </div>
+          </div>
+          
+          <div className="flex flex-wrap gap-3">
+            {/* Search Input */}
+            <div className="relative flex-grow md:max-w-xs">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <Search size={16} className="opacity-50" />
+              </div>
+              <input
+                type="search"
+                className="w-full py-2.5 pl-10 pr-4 border border-[var(--background-300)] rounded-lg focus:ring-2 focus:ring-[var(--secondary-300)] focus:border-transparent bg-[var(--background-50)]"
+                placeholder="Search transactions..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            
+            {/* Date Range Picker */}
+            <div className="flex items-center gap-2">
+              <input
+                type="date"
+                className="py-2 px-3 border border-[var(--background-300)] rounded-lg bg-[var(--background-50)]"
+                value={dateRange.start}
+                onChange={(e) => setDateRange(prev => ({ ...prev, start: e.target.value }))}
+              />
+              <span className="text-sm opacity-50">to</span>
+              <input
+                type="date"
+                className="py-2 px-3 border border-[var(--background-300)] rounded-lg bg-[var(--background-50)]"
+                value={dateRange.end}
+                onChange={(e) => setDateRange(prev => ({ ...prev, end: e.target.value }))}
+              />
+            </div>
+          </div>
         </div>
-
-        <motion.button 
-          className="flex items-center gap-2 py-2 px-4 rounded-md bg-[var(--primary-500)] text-white shadow-sm"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <PlusCircle size={16} />
-          <span className="font-medium">Add Transaction</span>
-        </motion.button>
-      </div>
-
-      {/* Quick summary stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <motion.div 
-          className="card-elevated p-5"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-          whileHover={{ y: -5 }}
-        >
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-full bg-green-100 text-green-600">
-              <ArrowDownCircle size={20} />
-            </div>
-            <div>
-              <p className="text-sm opacity-70">Income</p>
-              <h2 className="text-xl md:text-2xl font-bold text-green-600">${stats.income.toLocaleString()}</h2>
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div 
-          className="card-bordered p-5"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.2 }}
-          whileHover={{ y: -5 }}
-        >
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-full bg-red-100 text-red-600">
-              <ArrowUpCircle size={20} />
-            </div>
-            <div>
-              <p className="text-sm opacity-70">Expenses</p>
-              <h2 className="text-xl md:text-2xl font-bold text-red-500">${stats.expenses.toLocaleString()}</h2>
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div 
-          className="card-elevated p-5"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.3 }}
-          whileHover={{ y: -5 }}
-        >
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-full bg-[var(--primary-100)] text-[var(--primary-600)]">
-              <CreditCard size={20} />
-            </div>
-            <div>
-              <p className="text-sm opacity-70">Total Savings</p>
-              <h2 className="text-xl md:text-2xl font-bold text-[var(--primary-500)]">${stats.savings.toLocaleString()}</h2>
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div 
-          className="card-bordered p-5"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.4 }}
-          whileHover={{ y: -5 }}
-        >
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-full bg-[var(--accent-100)] text-[var(--accent-600)]">
-              <Clock size={20} />
-            </div>
-            <div>
-              <p className="text-sm opacity-70">Transactions</p>
-              <h2 className="text-xl md:text-2xl font-bold text-[var(--accent-500)]">{stats.totalTransactions}</h2>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Recurring transactions */}
-      <div className="mb-8">
-        <h3 className="text-lg font-medium mb-4">Recurring Transactions</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {mockTransactions
-            .filter(t => t.recurring)
-            .slice(0, 4)
-            .map((transaction) => (
-              <motion.div 
-                key={transaction.id}
-                className="card-bordered p-4 flex items-center justify-between"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
-                whileHover={{ y: -3 }}
-              >
-                <div className="flex items-center gap-3">
-                  <div className={`p-2 rounded-full ${
-                    transaction.type === 'income' 
-                      ? 'bg-green-100 text-green-600' 
-                      : 'bg-red-100 text-red-600'
-                  }`}>
-                    <RefreshCw size={16} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium">{transaction.description}</p>
-                    <p className="text-xs opacity-70">{transaction.category}</p>
-                  </div>
-                </div>
-                <span className={`text-sm font-medium ${
-                  transaction.type === 'income' ? 'text-green-600' : 'text-red-500'
-                }`}>
-                  {transaction.type === 'income' ? '+' : '-'}${Math.abs(transaction.amount).toLocaleString()}
-                </span>
-              </motion.div>
-            ))}
-        </div>
-      </div>
-
-      {/* Transactions by goal category tabs */}
-      <div className="mb-6">
-        <h3 className="text-lg font-medium mb-4">Transactions by Goal</h3>
-        <div className="flex flex-wrap gap-2 mb-4 overflow-x-auto pb-1">
+        
+        {/* Filters */}
+        <div className="flex flex-wrap gap-2 mb-6">
           <button
-            onClick={() => setActiveCategory(null)}
-            className={`py-1 px-3 text-sm rounded-full ${
-              activeCategory === null 
-                ? 'bg-[var(--primary-500)] text-white' 
-                : 'bg-[var(--background-100)]'
+            className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors ${
+              typeFilter === null 
+                ? 'bg-[var(--primary-100)] text-[var(--primary-600)]' 
+                : 'bg-[var(--background-100)] hover:bg-[var(--background-200)]'
             }`}
+            onClick={() => setTypeFilter(null)}
           >
             All
           </button>
-          {mockSavingsGoals.map((goal) => (
-            <button
-              key={goal.id}
-              onClick={() => setActiveCategory(goal.id)}
-              className={`py-1 px-3 text-sm rounded-full flex items-center gap-1 ${
-                activeCategory === goal.id 
-                  ? 'bg-[var(--primary-500)] text-white' 
-                  : 'bg-[var(--background-100)]'
-              }`}
-            >
-              <span>{goal.icon}</span>
-              <span>{goal.name}</span>
-            </button>
-          ))}
+          <button
+            className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors ${
+              typeFilter === 'expense' 
+                ? 'bg-[var(--error-100)] text-[var(--error-600)]' 
+                : 'bg-[var(--background-100)] hover:bg-[var(--background-200)]'
+            }`}
+            onClick={() => setTypeFilter('expense')}
+          >
+            <ArrowUpCircle size={16} />
+            Expenses
+          </button>
+          <button
+            className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors ${
+              typeFilter === 'income' 
+                ? 'bg-[var(--success-100)] text-[var(--success-600)]' 
+                : 'bg-[var(--background-100)] hover:bg-[var(--background-200)]'
+            }`}
+            onClick={() => setTypeFilter('income')}
+          >
+            <ArrowDownCircle size={16} />
+            Income
+          </button>
+          <button
+            className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors ${
+              typeFilter === 'saving' 
+                ? 'bg-[var(--secondary-100)] text-[var(--secondary-600)]' 
+                : 'bg-[var(--background-100)] hover:bg-[var(--background-200)]'
+            }`}
+            onClick={() => setTypeFilter('saving')}
+          >
+            Savings
+          </button>
         </div>
+        
+        {/* Transactions List */}
+        <TransactionList transactions={transactions} />
       </div>
-
-      {/* Transaction list */}
-      <TransactionList 
-        transactions={
-          activeCategory
-            ? getTransactionsByGoal(activeCategory)
-            : getFilteredTransactions()
-        }
-      />
     </AppLayout>
   );
 }

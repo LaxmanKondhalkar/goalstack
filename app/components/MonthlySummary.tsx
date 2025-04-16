@@ -1,6 +1,6 @@
 'use client';
 
-import { PieChart, Calendar, DollarSign, ArrowUpCircle, ArrowDownCircle, PiggyBank } from 'lucide-react';
+import { PieChart, Calendar, ArrowUpCircle, ArrowDownCircle, PiggyBank } from 'lucide-react';
 import { MonthlySummary as MonthlySummaryType } from '../types';
 import { motion } from 'framer-motion';
 

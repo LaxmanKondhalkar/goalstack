@@ -4,8 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Settings, User, Bell, PaintBucket, Shield, 
-  Lock, CreditCard, Share2, HelpCircle, X,
-  Check, Save, ChevronRight 
+  CreditCard, Share2, HelpCircle, Check, Save, ChevronRight 
 } from 'lucide-react';
 import AppLayout from '../components/AppLayout';
 import { mockUserProfile } from '../data/mockData';

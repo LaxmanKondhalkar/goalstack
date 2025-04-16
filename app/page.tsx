@@ -18,7 +18,7 @@ import {
 
 export default function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab] = useState('overview');
   const [notifications] = useState([
     { id: 1, title: "Monthly report available", time: "Just now" },
     { id: 2, title: "Goal completed: Emergency Fund", time: "2 hours ago" },

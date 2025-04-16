@@ -43,7 +43,7 @@ export default function GoalsPage() {
 
   // Sort and filter goals
   const sortedAndFilteredGoals = useMemo(() => {
-    let filteredGoals = filterCategory 
+    const filteredGoals = filterCategory 
       ? goals.filter(goal => goal.category === filterCategory) 
       : goals;
     

@@ -370,7 +370,7 @@ export const getTransactionsByDateRange = (startDate: string, endDate: string): 
 
 export const getTransactionsByTimeRange = (timeRange: TimeRange): Transaction[] => {
   const now = new Date();
-  let startDate = new Date();
+  const startDate = new Date();
   
   switch (timeRange) {
     case 'week':

@@ -10,9 +10,7 @@ import { mockAnalyticsData, mockSavingsGoals, calculateCompletionPercentage } fr
 import { TimeRange } from '../types';
 import { 
   TrendingUp, 
-  Wallet, 
   Target, 
-  Calendar, 
   ArrowDown, 
   ArrowUp,
   Download
@@ -195,12 +193,16 @@ export default function AnalyticsPage() {
                 <div className="mt-4 pt-3 border-t border-[var(--primary-200)]/10">
                   <div className="flex items-center justify-between text-sm">
                     <span className="opacity-70">Recent contribution</span>
-                    <span className="font-medium truncate max-w-[180px]">
-                      +${goal.contributions[goal.contributions.length - 1].amount.toLocaleString()} 
-                      <span className="text-xs opacity-70 ml-1">
-                        ({new Date(goal.contributions[goal.contributions.length - 1].date).toLocaleDateString()})
+                    {goal.contributions && goal.contributions.length > 0 ? (
+                      <span className="font-medium truncate max-w-[180px]">
+                        +${goal.contributions[goal.contributions.length - 1].amount.toLocaleString()} 
+                        <span className="text-xs opacity-70 ml-1">
+                          ({new Date(goal.contributions[goal.contributions.length - 1].date).toLocaleDateString()})
+                        </span>
                       </span>
-                    </span>
+                    ) : (
+                      <span className="text-xs opacity-70">No contributions yet</span>
+                    )}
                   </div>
                 </div>
               </motion.div>

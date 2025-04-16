@@ -154,7 +154,7 @@ export default function GoalsPage() {
               {categories.map(category => (
                 <button
                   key={category}
-                  onClick={() => setFilterCategory(category)}
+                  onClick={() => setFilterCategory(category || null)}
                   className={`px-3 py-1.5 rounded-lg text-sm ${filterCategory === category ? 'bg-[var(--primary-100)] text-[var(--primary-600)]' : 'bg-[var(--background-100)] hover:bg-[var(--background-200)]'}`}
                 >
                   {category}

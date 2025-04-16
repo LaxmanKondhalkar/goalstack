@@ -17,9 +17,10 @@ const colorOptions = [
 
 interface AddGoalFormProps {
   onAddGoal: (goal: SavingsGoal) => void;
+  onCancel?: () => void; // Making it optional with ?
 }
 
-export default function AddGoalForm({ onAddGoal }: AddGoalFormProps) {
+export default function AddGoalForm({ onAddGoal, onCancel }: AddGoalFormProps) {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [name, setName] = useState('');
   const [targetAmount, setTargetAmount] = useState('');
@@ -55,6 +56,9 @@ export default function AddGoalForm({ onAddGoal }: AddGoalFormProps) {
     setSelectedIcon(emojiOptions[0]);
     setSelectedColor(colorOptions[0]);
     setIsFormOpen(false);
+    if (onCancel) {
+      onCancel();
+    }
   };
   
   if (!isFormOpen) {

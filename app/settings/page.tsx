@@ -9,6 +9,7 @@ import {
 import AppLayout from '../components/AppLayout';
 import { mockUserProfile } from '../data/mockData';
 import { UserProfile } from '../types';
+import Image from 'next/image';
 
 export default function SettingsPage() {
   const [user, setUser] = useState<UserProfile>(mockUserProfile);
@@ -169,9 +170,11 @@ export default function SettingsPage() {
                 <div className="flex flex-col md:flex-row gap-6 mb-6">
                   <div className="flex-shrink-0">
                     <div className="relative">
-                      <img 
+                      <Image 
                         src={user.avatar || 'https://via.placeholder.com/100'} 
                         alt="Profile" 
+                        width={96}
+                        height={96}
                         className="w-24 h-24 rounded-full object-cover border-4 border-[var(--background-50)]"
                       />
                       <button className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-[var(--primary-500)] text-white flex items-center justify-center">

@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GoalStack
 
-## Getting Started
+A modern, interactive savings goal tracker that helps users visualize and manage their financial objectives.
 
-First, run the development server:
+![GoalStack App Screenshot](./public/screenshot.png)
+
+## 📋 Overview
+
+GoalStack is a web application designed to help users set, track, and achieve their savings goals. With an intuitive and responsive interface, users can create multiple savings goals, track their progress, and stay motivated through visual feedback and progress indicators.
+
+## ✨ Features
+
+- **Goal Management**: Create, view, and manage multiple savings goals
+- **Progress Tracking**: Visual progress indicators with percentage completion
+- **Interactive UI**: Smooth animations and responsive design
+- **Status Indicators**: Dynamic status messages based on progress
+- **Consistent Design**: Unified design language across components
+
+## 🚀 Technologies
+
+- **Framework**: Next.js (React)
+- **Styling**: Tailwind CSS with custom variables
+- **Animations**: Framer Motion
+- **Icons**: Lucide React
+
+## 🛠️ Setup and Installation
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/yourusername/GoalStack.git
+cd GoalStack
+```
+
+2. **Install dependencies**
+
+```bash
+npm install
+# or
+yarn install
+```
+
+3. **Run the development server**
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. **Open your browser**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Navigate to [http://localhost:3000](http://localhost:3000) to see the application.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📂 Project Structure
 
-## Learn More
+```
+/app
+  /components
+    - GoalCard.tsx       # Individual goal card component
+    - GoalsList.tsx      # Container for goal cards
+    - AddGoalForm.tsx    # Form for adding new goals
+    - ...
+  /types
+    - index.ts           # TypeScript type definitions
+  /pages
+    - index.tsx          # Homepage
+    - ...
+/public
+  - ...                  # Static assets
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 🎨 Design System
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+GoalStack uses a custom design system with CSS variables for consistent theming:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Color Themes**: Primary, Secondary, and Accent color palettes
+- **Card Variants**: Default, Elevated, and Bordered styles
+- **Progress Indicators**: Color-coded based on completion percentage
+- **Interactive Elements**: Animated buttons and cards
 
-## Deploy on Vercel
+## 🔧 Usage
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Create a new goal** by clicking the "+" button
+2. **Enter goal details** including name, target amount, and icon
+3. **Track progress** as you add funds to your goals
+4. **Visualize completion** through progress bars and status indicators
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgements
+
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Framer Motion](https://www.framer.com/motion/)
+- [Lucide Icons](https://lucide.dev/)

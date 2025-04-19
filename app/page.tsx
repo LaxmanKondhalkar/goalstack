@@ -16,6 +16,18 @@ import {
   DollarSign, Download, Share2, Zap
 } from 'lucide-react';
 
+/**
+ * Dashboard component serving as the homepage for GoalStack
+ * 
+ * Displays a comprehensive financial dashboard including:
+ * - Overview of user's financial metrics
+ * - Savings goals progress
+ * - Monthly spending and income summaries
+ * - Recent transactions
+ * - Financial tips
+ * 
+ * @returns {JSX.Element} The rendered dashboard interface
+ */
 export default function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [activeTab] = useState('overview');
@@ -26,9 +38,11 @@ export default function Dashboard() {
   ]);
   const [showNotifications, setShowNotifications] = useState(false);
 
-  // Months for chart data
+  // Months for chart data visualization
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+  // Sample data for expense visualization
   const expenseData = [1200, 980, 1400, 1100, 1600, 1350];
+  // Sample data for savings visualization
   const savingsData = [400, 500, 350, 450, 700, 620];
 
   return (

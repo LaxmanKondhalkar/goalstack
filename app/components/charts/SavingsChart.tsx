@@ -5,29 +5,55 @@ import { motion } from 'framer-motion';
 import { SavingsGrowth } from '../../types';
 import { ChevronLeft, ChevronRight, TrendingUp, Save } from 'lucide-react';
 
+/**
+ * Props for the SavingsChart component
+ */
 interface SavingsChartProps {
+  /** Array of savings data points with date and amount information */
   data: SavingsGrowth[];
 }
 
+/**
+ * SavingsChart component that displays a line chart of savings growth over time
+ * 
+ * Features:
+ * - Animated line chart showing savings growth trend
+ * - Area fill under the line with gradient
+ * - Interactive data points
+ * - Y-axis with dollar amount labels
+ * - X-axis with date labels
+ * - Summary metrics for growth percentage
+ * 
+ * @param {Object} props - Component props
+ * @param {SavingsGrowth[]} props.data - Savings data for the chart
+ * @returns {JSX.Element} Rendered chart component
+ */
 export default function SavingsChart({ data }: SavingsChartProps) {
   const [mounted, setMounted] = useState(false);
 
+  // Prevent hydration mismatch by only rendering after mount
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Show loading state until component is mounted
   if (!mounted) {
     return <div className="h-80 bg-[var(--background-100)] animate-pulse rounded-lg"></div>;
   }
 
-  // Format dates for display
+  /**
+   * Format date strings for display on the x-axis
+   * 
+   * @param {string} dateStr - ISO date string
+   * @returns {string} Formatted date (e.g., "Jan 2025")
+   */
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
     return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
   };
 
   // Calculate chart metrics
-  const maxAmount = Math.max(...data.map(item => item.amount)) * 1.1;
+  const maxAmount = Math.max(...data.map(item => item.amount)) * 1.1; // Add 10% padding
   const totalGrowth = data.length > 1
     ? ((data[data.length - 1].amount - data[0].amount) / data[0].amount) * 100
     : 0;
@@ -62,7 +88,7 @@ export default function SavingsChart({ data }: SavingsChartProps) {
       </div>
       
       <div className="h-64 relative">
-        <div className="absolute inset-0 pl-8"> {/* Added left padding */}
+        <div className="absolute inset-0 pl-8"> {/* Added left padding for y-axis labels */}
           {/* Y axis grid lines */}
           {[0, 1, 2, 3, 4].map((line) => (
             <div 
@@ -155,6 +181,7 @@ export default function SavingsChart({ data }: SavingsChartProps) {
         </div>
       </div>
       
+      {/* Summary metrics */}
       <div className="mt-6 pt-4 border-t border-[var(--primary-200)]/10 grid grid-cols-2 gap-4">
         <div>
           <p className="text-xs opacity-70">Current Savings</p>

@@ -4,6 +4,9 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 type Theme = 'light' | 'dark';
 
+/**
+ * Context interface for the theme management system
+ */
 interface ThemeContextType {
   theme: Theme;
   setTheme: (theme: Theme) => void;
@@ -11,6 +14,19 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+/**
+ * ThemeProvider component that manages application theme state
+ * 
+ * Handles:
+ * - Initial theme detection based on system preferences
+ * - Theme persistence using localStorage
+ * - Applying theme to the document
+ * - Providing theme context to child components
+ * 
+ * @param {Object} props - Component props
+ * @param {React.ReactNode} props.children - Child components
+ * @returns {JSX.Element} Provider component with children
+ */
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>('light');
 
@@ -43,6 +59,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
+/**
+ * Custom hook to access the theme context
+ * 
+ * @returns {ThemeContextType} Theme context with current theme and setTheme function
+ * @throws {Error} If used outside of a ThemeProvider
+ */
 export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (context === undefined) {

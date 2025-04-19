@@ -22,10 +22,27 @@ import {
 } from 'lucide-react';
 import { mockUserProfile } from '../data/mockData';
 
+/**
+ * Props for the AppLayout component
+ */
 interface AppLayoutProps {
+  /** Child components to render within the layout */
   children: React.ReactNode;
 }
 
+/**
+ * Main application layout component used across most pages
+ * 
+ * Provides:
+ * - Responsive header with app branding, search, notifications, and theme toggle
+ * - Responsive sidebar with navigation links
+ * - Mobile-friendly layout with collapsible navigation
+ * - Main content area with footer
+ * 
+ * @param {Object} props - Component props
+ * @param {React.ReactNode} props.children - Content to display in the main area
+ * @returns {JSX.Element} The complete page layout
+ */
 export default function AppLayout({ children }: AppLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
@@ -63,6 +80,12 @@ export default function AppLayout({ children }: AppLayoutProps) {
     }
   }, [pathname, isMobileView]);
 
+  /**
+   * Check if the given path matches the current path
+   * 
+   * @param {string} path - Path to check against current location
+   * @returns {boolean} True if paths match
+   */
   const isActive = (path: string) => {
     return pathname === path;
   };
@@ -71,8 +94,9 @@ export default function AppLayout({ children }: AppLayoutProps) {
     <>
       {/* Dashboard Header */}
       <header className="py-2 md:py-3 px-3 md:px-6 sticky top-0 z-50 backdrop-blur-md bg-[var(--background-50)]/90 border-b border-[var(--primary-200)]/20">
+        {/* Header content */}
         <div className="flex justify-between items-center">
-          {/* Left side */}
+          {/* Left side - Logo and toggle */}
           <div className="flex items-center gap-2 md:gap-3">
             <motion.button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -126,32 +150,33 @@ export default function AppLayout({ children }: AppLayoutProps) {
             )}
           </AnimatePresence>
           
-          {/* Right side */}
+          {/* Right side - User actions */}
           <div className="flex items-center gap-1 md:gap-4">
-            {/* Mobile search toggle */}
-            {isMobileView && !showMobileSearch && (
-              <motion.button
-                onClick={() => setShowMobileSearch(true)}
-                className="p-1.5 rounded-full hover:bg-[var(--primary-100)]"
-                whileTap={{ scale: 0.9 }}
-              >
-                <Search size={18} />
-              </motion.button>
-            )}
+            {/* Search button for mobile view */}
+            <motion.button
+              onClick={() => setShowMobileSearch(!showMobileSearch)}
+              className="md:hidden p-1.5 rounded-md hover:bg-[var(--primary-100)]"
+              whileTap={{ scale: 0.9 }}
+              aria-label="Search"
+            >
+              <Search size={18} />
+            </motion.button>
             
+            {/* Notifications */}
             <div className="relative">
               <motion.button
                 onClick={() => setShowNotifications(!showNotifications)}
-                className="p-1.5 md:p-2 rounded-full hover:bg-[var(--primary-100)] relative"
+                className="p-1.5 rounded-md hover:bg-[var(--primary-100)] relative"
                 whileTap={{ scale: 0.9 }}
+                aria-label="Notifications"
               >
-                <Bell size={isMobileView ? 18 : 20} />
-                <span className="absolute top-0 right-0 w-2 h-2 bg-[var(--accent)] rounded-full"></span>
+                <Bell size={18} />
+                <span className="absolute -top-1 -right-1 bg-red-500 text-[var(--background-50)] text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
               </motion.button>
               
               <AnimatePresence>
                 {showNotifications && (
-                  <motion.div 
+                  <motion.div
                     className="absolute right-0 mt-2 w-64 md:w-72 bg-[var(--background-50)] border border-[var(--primary-200)]/30 rounded-lg shadow-lg overflow-hidden z-50"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
